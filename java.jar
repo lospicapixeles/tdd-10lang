@@ -1,0 +1,58 @@
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Estadisticas {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Ingrese la cantidad de valores: \n=============================\n ");
+        int n = sc.nextInt();
+        double[] nums = new double[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Valor " + (i + 1) + ": ");
+            nums[i] = sc.nextDouble();
+        }
+
+        double media = calcularMedia(nums);
+        double desviacion = calcularDesviacionEstandar(nums);
+
+        System.out.println("Media Aritmetica: " + media);
+        System.out.println("Desviacion estandar: " + desviacion);
+
+        sc.close();
+
+        // Ejecutar pruebas
+        ejecutarPruebas();
+    }
+
+    public static double calcularMedia(double[] valores) {
+        return Arrays.stream(valores).average().orElse(0);
+    }
+
+    public static double calcularDesviacionEstandar(double[] valores) {
+        double media = calcularMedia(valores);
+        return Math.sqrt(Arrays.stream(valores)
+                .map(x -> Math.pow(x - media, 2))
+                .average().orElse(0));
+    }
+
+    public static void ejecutarPruebas() {
+        testCalcularMedia();
+        testCalcularDesviacionEstandar();
+    }
+
+    public static void testCalcularMedia() {
+        double[] valores = {10, 20, 30, 40, 50};
+        double resultadoEsperado = 30.0;
+        double resultado = calcularMedia(valores);
+        System.out.println("Test Calcular Media: " + (resultadoEsperado == resultado ? "PASÓ" : "FALLO"));
+    }
+
+    public static void testCalcularDesviacionEstandar() {
+        double[] valores = {10, 20, 30, 40, 50};
+        double resultadoEsperado = 14.1421;
+        double resultado = calcularDesviacionEstandar(valores);
+        System.out.println("Test Calcular Desviacion Estandar: " + (Math.abs(resultadoEsperado - resultado) < 0.001 ? "PASÓ" : "FALLO"));
+    }
+}
